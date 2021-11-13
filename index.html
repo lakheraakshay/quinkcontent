@@ -1750,21 +1750,25 @@ headers.append('Access-Control-Allow-Credentials', 'true');
     var EMAIL=document.getElementById("exampleFormControlInput1").value;  
     var DESCRIPTION=document.getElementById("exampleFormControlTextarea1").value;  
     var WORD=document.getElementById("word-limit").value;  
-    // alert(`${email},${Description}`)
-const url="https://quinkcontentcreation.herokuapp.com/content/form"
-const sendIt={EMAIL:"lakheraakshay",DESCRIPTION:"hello",WORD:65}
+    var TYPE=document.getElementById("content-type").value
+    if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(EMAIL))
+ {
+    alert("You have entered an invalid email address!")
+    return null
+ }
+if(DESCRIPTION.trim()==""||DESCRIPTION.trim==null){
+  alert("Enter Description about the content")
+  return null
+}
 
-//     var xhr = new XMLHttpRequest();
-// xhr.open("POST","https://quinkcontentcreation.herokuapp.com/content/form", true);
-// xhr.setRequestHeader('Content-Type', 'application/json');
-//  xhr.send(JSON.stringify({EMAIL,DESCRIPTION,WORD}));
-// const data=await xhr.responseText;
-// console.log(data,"data")
+// const url="https://quinkcontentcreation.herokuapp.com/content/form"
+const url="http://localhost:5000/content/form"
+
 
 fetch(url, {
   method: "POST", 
   headers:headers,
-  body:JSON.stringify({EMAIL:"OK",DESCRIPTION:"OK",WORD:5})
+  body:JSON.stringify({EMAIL,DESCRIPTION,WORD,TYPE})
 }).then(res => {
   // console.log("Request complete! response:", res);
   if(res.status==200){
@@ -1795,7 +1799,7 @@ fetch(url, {
             </div>
             <div>
               <label for="exampleFormControlInput1">Content Type</label>
-              <select name = "dropdown" style="margin-top: 5px;margin-bottom: 8px;display: flex;padding-top: 5px;padding-bottom: 5px;border-color: lightgray;border-radius: 4px;width: -webkit-fill-available;">
+              <select name = "dropdown" id="content-type" style="margin-top: 5px;margin-bottom: 8px;display: flex;padding-top: 5px;padding-bottom: 5px;border-color: lightgray;border-radius: 4px;width: -webkit-fill-available;">
                 <option selected>Select</option>
                 <option value = "Article Writing">Article/Blog Writing</option>
                 <option value = "Technical Writing">Technical Writing</option>
